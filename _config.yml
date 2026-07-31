@@ -6,7 +6,7 @@ url: "https://chkp-gderon.github.io"
 baseurl: ""
 lang: en-US
 markdown: kramdown
-permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
 theme: minima
 plugins:
   - jekyll-feed
