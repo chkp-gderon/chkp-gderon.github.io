@@ -1,0 +1,9 @@
+# Local and incident-sensitive material
+.bundle/
+_site/
+.sass-cache/
+.jekyll-cache/
+*.har
+*.headers
+*.cookies
+*.env

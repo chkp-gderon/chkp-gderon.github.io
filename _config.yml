@@ -1,0 +1,15 @@
+title: Notes from the Field
+description: Technical investigations, practical experiments, and lessons from real-world systems.
+author:
+  name: Geert De Ron
+url: "https://chkp-gderon.github.io"
+baseurl: ""
+lang: en-US
+markdown: kramdown
+permalink: /:categories/:year/:month/:day/:title/
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+header_pages:
+  - about.md
