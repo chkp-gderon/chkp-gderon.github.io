@@ -152,6 +152,14 @@ Creator:     Ymq Product Options
 
 The YMQ installation had relevant content and storefront permissions, including the ability to write content, themes, and script tags.
 
+<p class="image-center"><img src="/assets/images/shopify-incident/shopify-page-list-visible.jpg" alt="Shopify mobile Pages list showing the YMQ redirect validation Page as visible"></p>
+
+*Figure 4 — Shopify mobile Pages view showing the malicious Page as a normal visible Page in the store administration interface. The preview exposes the beginning of the JavaScript payload, which is why this screenshot is presented as forensic evidence rather than executable code.*
+
+<p class="image-center"><img src="/assets/images/shopify-incident/shopify-page-details-visible.jpg" alt="Shopify mobile Page details showing the malicious YMQ Page handle and visible state"></p>
+
+*Figure 5 — Shopify mobile Page details showing the `ymq-r-26b76f38fd` handle, the storefront URL, the visible state, and the creation time of 21:11 CEST. For Shopify merchants, this is an important reminder that Pages are an execution surface when their content is rendered or fetched by storefront code.*
+
 ![YMQ storefront permissions](/assets/images/shopify-incident/app-permissions.jpg)
 
 *Figure 3 — Shopify permission evidence showing access to themes, webshop script tags, and webshop pages. No account identifiers, tokens, or customer records are visible in the published crop.*
