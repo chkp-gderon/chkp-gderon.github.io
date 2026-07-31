@@ -6,8 +6,6 @@ categories: [Cybersecurity, Incident Response, Ecommerce]
 tags: [Shopify, GraphQL, Supply Chain Security, Web Security]
 ---
 
-# When Checkout Becomes an Attack Surface: Forensics of a Shopify Redirect Incident
-
 *A merchant-side investigation into unauthorized GraphQL execution, malicious storefront objects, and the limits of emergency containment*
 
 ## Executive summary
