@@ -218,6 +218,10 @@ For small merchants, the practical playbook is straightforward:
 
 A broken checkout is an operational problem. A checkout that can be rewritten by an external actor is an incident.
 
+I documented the incident, the attack chain, and the defensive lessons that apply to merchants, app developers, and platform operators.
+
+> **Update note:** This post-mortem will be updated as additional forensic evidence, vendor information, or confirmed scope details become available.
+
 ## Indicators of compromise
 
 The indicators below are intentionally defanged for publication:
