@@ -160,6 +160,10 @@ The YMQ installation had relevant content and storefront permissions, including 
 
 *Figure 5 — Shopify mobile Page details showing the `ymq-r-26b76f38fd` handle, the storefront URL, the visible state, and the creation time of 21:11 CEST. For Shopify merchants, this is an important reminder that Pages are an execution surface when their content is rendered or fetched by storefront code.*
 
+<p class="image-center"><img src="/assets/images/shopify-incident/shopify-audit-event-page-created.jpg" alt="Shopify audit event stating that Ymq Product Options created the YMQ redirect validation Page at 21:11 CEST"></p>
+
+*Figure 6 — The visual Shopify audit event: “Ymq Product Options created a new page: YMQ redirect validation 26b76f38fd” at 21:11 CEST. This is the human-readable counterpart to the API audit record referenced later in the post.*
+
 ![YMQ storefront permissions](/assets/images/shopify-incident/app-permissions.jpg)
 
 *Figure 3 — Shopify permission evidence showing access to themes, webshop script tags, and webshop pages. No account identifiers, tokens, or customer records are visible in the published crop.*
