@@ -183,26 +183,26 @@ The Shopify support transcript supplied for this incident was provided with UTC 
 
 | CEST timestamp | Event |
 |---|---|
-| **2026-07-30 21:11:58 CEST** | Shopify records creation of the malicious Page by `Ymq Product Options`. |
-| **2026-07-30 22:49 CEST** | The initial urgent incident report is sent to YMQ. |
-| **2026-07-30 22:56 CEST** | The critical incident is reported to Shopify Support. The report includes the redirect destination, external loader, malicious Page, cart-data handling, and the absence of payment-data testing. |
-| **2026-07-30 22:59:34 CEST** | The malicious Page is hidden as emergency containment. A fresh browser request returns a genuine Shopify 404. |
-| **2026-07-30 23:02 CEST** | The merchant reports that the suspicious Page has been hidden and that the redirect appears mitigated. |
-| **2026-07-30 23:03–23:04 CEST** | Shopify confirms that customers had been actively redirected, then notes that the redirect appears to have stopped after the Page was hidden. Shopify emphasizes that specialist review is still required. |
-| **2026-07-30 23:12–23:16 CEST** | Shopify requests screenshots, timestamps, and evidence. The merchant confirms that the Page is hidden rather than deleted and that the incident had been live for only a few hours at most based on checkout testing. |
-| **2026-07-30 23:18–23:20 CEST** | Shopify transfers the case to specialist/technical support. |
-| **2026-07-30 23:36 CEST** | Shopify begins checking backend logs to determine how the Page was added. |
-| **2026-07-30 23:39 CEST** | Shopify reports that the Page was created through an API call using `pageCreate`. |
-| **2026-07-30 23:45 CEST** | Shopify states that attribution to a specific app or user is not yet confirmed. |
-| **2026-07-31 00:01 CEST** | Shopify asks that the hidden Page not be deleted so specialist teams can investigate it. |
-| **2026-07-31 00:07 CEST** | Shopify ends the chat after escalating the case to its specialist/security process. |
-| **2026-07-31 01:54 CEST** | YMQ reports that two customers are experiencing the issue and that its technicians are investigating. |
-| **2026-07-31 03:09 CEST** | Additional Shopify evidence is posted, identifying the YMQ installation, relevant permissions, Page event, containment event, and the remaining global-loader attribution question. |
-| **2026-07-31 03:09 CEST** | YMQ states that the cause has been identified and the vulnerability fixed. |
-| **2026-07-31 03:12 CEST** | A second suspected redirect destination, `jqek9c[.]bond`, is reported and added to the IOC set. Its relationship to the first destination remains unconfirmed. |
-| **2026-07-31 04:31 CEST** | Shopify states that the issue is related to a security problem with YMQ Product Options & Variants and that the app has been disabled to protect merchants and customers. |
-| **2026-07-31 09:40 CEST** | YMQ provides its RCA: attacker-controlled `query` and `variables` enabled unauthorized GraphQL execution through the draft-order API flow. YMQ states that the endpoint was restricted to `draftOrderCreate`, input validation was added, and authentication was strengthened. |
-| **2026-07-31 10:07 CEST** | YMQ reports that Shopify API access had already been restricted, preventing its full investigation. YMQ reports at least three affected stores, says exact scope is not yet known, and states that it found no backend file modification or server-side compromise. |
+| **2026-07-30 21:11:58** | Shopify records creation of the malicious Page by `Ymq Product Options`. |
+| **2026-07-30 22:49** | The initial urgent incident report is sent to YMQ. |
+| **2026-07-30 22:56** | The critical incident is reported to Shopify Support. The report includes the redirect destination, external loader, malicious Page, cart-data handling, and the absence of payment-data testing. |
+| **2026-07-30 22:59:34** | The malicious Page is hidden as emergency containment. A fresh browser request returns a genuine Shopify 404. |
+| **2026-07-30 23:02** | The merchant reports that the suspicious Page has been hidden and that the redirect appears mitigated. |
+| **2026-07-30 23:03–23:04** | Shopify confirms that customers had been actively redirected, then notes that the redirect appears to have stopped after the Page was hidden. Shopify emphasizes that specialist review is still required. |
+| **2026-07-30 23:12–23:16** | Shopify requests screenshots, timestamps, and evidence. The merchant confirms that the Page is hidden rather than deleted and that the incident had been live for only a few hours at most based on checkout testing. |
+| **2026-07-30 23:18–23:20** | Shopify transfers the case to specialist/technical support. |
+| **2026-07-30 23:36** | Shopify begins checking backend logs to determine how the Page was added. |
+| **2026-07-30 23:39** | Shopify reports that the Page was created through an API call using `pageCreate`. |
+| **2026-07-30 23:45** | Shopify states that attribution to a specific app or user is not yet confirmed. |
+| **2026-07-31 00:01** | Shopify asks that the hidden Page not be deleted so specialist teams can investigate it. |
+| **2026-07-31 00:07** | Shopify ends the chat after escalating the case to its specialist/security process. |
+| **2026-07-31 01:54** | YMQ reports that two customers are experiencing the issue and that its technicians are investigating. |
+| **2026-07-31 03:09** | Additional Shopify evidence is posted, identifying the YMQ installation, relevant permissions, Page event, containment event, and the remaining global-loader attribution question. |
+| **2026-07-31 03:09** | YMQ states that the cause has been identified and the vulnerability fixed. |
+| **2026-07-31 03:12** | A second suspected redirect destination, `jqek9c[.]bond`, is reported and added to the IOC set. Its relationship to the first destination remains unconfirmed. |
+| **2026-07-31 04:31** | Shopify states that the issue is related to a security problem with YMQ Product Options & Variants and that the app has been disabled to protect merchants and customers. |
+| **2026-07-31 09:40** | YMQ provides its RCA: attacker-controlled `query` and `variables` enabled unauthorized GraphQL execution through the draft-order API flow. YMQ states that the endpoint was restricted to `draftOrderCreate`, input validation was added, and authentication was strengthened. |
+| **2026-07-31 10:07** | YMQ reports that Shopify API access had already been restricted, preventing its full investigation. YMQ reports at least three affected stores, says exact scope is not yet known, and states that it found no backend file modification or server-side compromise. |
 
 YMQ also provided approximate relative markers: the vulnerability had been exposed approximately 12 hours earlier, Shopify had restricted API access approximately 9 hours earlier, and code updates had been completed approximately 8 hours earlier. These remain vendor-reported approximations and are not treated as exact timestamps.
 
