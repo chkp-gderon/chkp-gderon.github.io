@@ -10,7 +10,7 @@ tags: [Shopify, GraphQL, Supply Chain Security, Web Security]
 
 ## Executive summary
 
-In late July 2026, our webshop, Caro B Handmade, began exhibiting behavior that initially looked like a checkout or inventory problem. Customers encountered a misleading “sold out” message on an available product. More seriously, checkout traffic could be intercepted and redirected to an unrelated, phishing-style destination.
+In late July 2026, our webshop, [Caro B Handmade](https://www.carobhandmade.be), began exhibiting behavior that initially looked like a checkout or inventory problem. Customers encountered a misleading “sold out” message on an available product. More seriously, checkout traffic could be intercepted and redirected to an unrelated, phishing-style destination.
 
 This was not a theme bug.
 
