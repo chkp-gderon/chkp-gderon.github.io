@@ -8,9 +8,11 @@ tags: [Shopify, GraphQL, Supply Chain Security, Web Security]
 
 *A merchant-side investigation into unauthorized GraphQL execution, malicious storefront objects, and the limits of emergency containment*
 
+*This post-mortem will be updated as additional forensic evidence, vendor information, or confirmed scope details become available.*
+
 ## Executive summary
 
-In late July 2026, our webshop, [Caro B Handmade](https://www.carobhandmade.be), began exhibiting behavior that initially looked like a checkout or inventory problem. Customers encountered a misleading “sold out” message on an available product. More seriously, checkout traffic could be intercepted and redirected to an unrelated, phishing-style destination.
+On 30 July 2026, our webshop, [Caro B Handmade](https://www.carobhandmade.be), began exhibiting behavior that initially looked like a checkout or inventory problem. Customers encountered a misleading “sold out” message on an available product. More seriously, checkout traffic could be intercepted and redirected to an unrelated, phishing-style destination.
 
 This was not a theme bug.
 
@@ -219,8 +221,6 @@ For small merchants, the practical playbook is straightforward:
 A broken checkout is an operational problem. A checkout that can be rewritten by an external actor is an incident.
 
 I documented the incident, the attack chain, and the defensive lessons that apply to merchants, app developers, and platform operators.
-
-> **Update note:** This post-mortem will be updated as additional forensic evidence, vendor information, or confirmed scope details become available.
 
 ## Indicators of compromise
 
