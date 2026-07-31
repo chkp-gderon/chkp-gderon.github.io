@@ -30,7 +30,7 @@ The message was produced by the YMQ product-option flow as a generic fallback wh
 
 The security symptom appeared when checkout behavior was examined in a clean browser context. Clicking checkout did not lead directly to the expected Shopify checkout flow. Instead, a JavaScript payload intercepted pointer events, clicks, and form submissions, prevented the normal event, read `/cart.js`, normalized the cart contents, and constructed a redirect URL to an external domain.
 
-![Customer-facing misleading sold-out alert](/assets/images/shopify-incident/sold-out-alert.jpg)
+<p class="image-center"><img src="/assets/images/shopify-incident/sold-out-alert.jpg" alt="Customer-facing misleading sold-out alert"></p>
 
 *Figure 1 — The customer-facing symptom: a misleading sold-out alert on a product that Shopify reported as available. The screenshot contains no customer data; the product and store names are retained as incident evidence.*
 
