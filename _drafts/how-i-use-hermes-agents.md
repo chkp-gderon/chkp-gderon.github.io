@@ -197,6 +197,86 @@ The principle is more important than the implementation:
 
 > Hermes should not receive every secret just because it might need one of them someday.
 
+## What I actually use Hermes for
+
+The most convincing part of the experiment is not the architecture diagram. It is the number of ordinary technical jobs that now start with a few Telegram prompts.
+
+### Recovering from a VM disk problem
+
+On one occasion, a VM ran into a disk-space problem. Instead of opening several management consoles and manually working through the recovery, I described the symptom in Telegram. Hermes inspected the VM and guest state, identified the storage issue, expanded the virtual disk, completed the guest-side filesystem work, and verified that the services recovered.
+
+The interruption was measured in seconds rather than a long maintenance window. The important part was not that the agent knew one magic command; it was that it could coordinate the whole sequence: diagnose, change, verify and report.
+
+### Monitoring the lab for updates
+
+Hermes audits the apt-based VMs and containers for unattended-upgrades, timers, service state, stale package lists, pending security updates and reboot requirements. This catches the difference between “the timer is enabled” and “the machine actually updated recently”.
+
+The Proxmox control plane, appliances and vendor-managed systems remain subject to separate, more cautious update procedures. Automation is useful, but not every host should be treated as an ordinary Ubuntu VM.
+
+### SSH access and hardening
+
+Hermes uses its own dedicated SSH identity for lab access rather than relying on a personal default key. Host entries use explicit identities and `IdentitiesOnly`, host-key trust is handled deliberately, and access is tested in batch mode with a live verification command such as `hostname` or `whoami`.
+
+The setup also separates SSH authentication from privilege. A key may provide a shell without automatically granting access to every management plane. SSH logs are monitored for pre-authentication storms, and the agent is expected to diagnose key, trust, network and privilege failures separately instead of repeatedly guessing credentials.
+
+### GitHub with a limited collaborator identity
+
+Hermes has its own GitHub account and uses collaborator access only to selected repositories. That account can publish the blog and maintain approved automation or backup repositories, but it is not treated as my personal GitHub identity and does not receive blanket access to everything.
+
+The separation is useful both operationally and for auditability: the commit history shows which changes were made by the agent, while repository permissions limit the blast radius if something goes wrong.
+
+### Writing and publishing blog posts
+
+Hermes can turn investigation notes into a structured Markdown article, sanitize it for public release, add images and links, commit it to the GitHub Pages repository, and verify the rendered page. Drafts can remain under `_drafts` until I decide to publish them.
+
+That is how this article was produced: not as a text blob in a chat window, but as a versioned, reviewable artifact in the same publication repository as the security post-mortem.
+
+### Reading infrastructure evidence
+
+Hermes can analyze Pi-hole logs, search for patterns in DNS activity, compare timestamps and help distinguish normal clients from suspicious or misconfigured devices. It can inspect DHCP leases, explain why a client received a particular address, and create DHCP reservations when the network design calls for a stable assignment.
+
+For the Check Point firewall, Hermes can assist with controlled diagnostics such as interface and routing checks and packet captures with `tcpdump`. This is particularly useful when a problem looks like DNS, DHCP or application failure but is actually a routing, NAT or policy issue.
+
+The rule remains that captures and credentials stay private. Hermes uses the evidence to answer a question; it does not automatically publish the raw data.
+
+## My current scheduled automation
+
+Cron jobs are where Hermes moves from “assistant I ask questions” to “system that watches things for me”. At the time of writing, the active schedulers contain these jobs:
+
+- **Ryze MCP Healthcheck — daily at 06:00:** checks the business data connector before scheduled reporting.
+- **SSH pre-auth storm monitor — every 10 minutes:** watches SSH authentication logs for repeated pre-authentication disconnects and alerts when a storm appears.
+- **Memory optimizer — weekly:** reviews and maintains long-term agent memory instead of allowing it to grow without control.
+- **WAF Prevent Alert — every minute:** watches for relevant WAF prevention events and reports them quickly.
+- **n8n Workflow Backup — daily at 03:00:** exports n8n workflows so automation changes can be recovered.
+- **Hermes Config Backup — daily at 03:00:** backs up sanitized Hermes configuration, skills, references and scripts to GitHub, while excluding secrets and ephemeral state.
+- **Codex Usage Monitor — every two hours:** tracks provider usage so quotas are not exhausted unexpectedly.
+- **ISP Outage Monitor — every minute:** detects outages and recoveries, checks reachability, notices public-IP changes and reports follow-up actions for Cloudflare, the WAF and the Check Point gateway.
+- **Cron Failure Auto-Remediator — every 10 minutes:** inspects failed jobs, investigates the actual error and may apply only safe, reversible fixes inside Hermes-owned files.
+- **Caro B Handmade Daily Advertising Report — daily at 07:00:** combines Shopify, Google Ads and Meta data into a concise Dutch management report.
+- **VAT Attribute Monitor — daily at 09:00:** checks new paid orders for missing VAT attributes and alerts only when a real data-quality issue appears.
+
+This list changes as the system evolves, but it illustrates the range: security monitoring, backups, provider usage, infrastructure resilience, business reporting and self-healing automation.
+
+## Topics instead of one giant conversation
+
+I also started using Telegram topics to group conversations by subject. Home Assistant, infrastructure, Hermes operations, security investigations, business reporting and general planning can each have their own thread.
+
+That sounds like a small organizational detail, but it makes a large difference. The agent gets better context, I can find decisions later, and unrelated troubleshooting sessions do not become one enormous chronological scroll.
+
+A good agent needs memory, but a good operator still needs filing cabinets.
+
+## What I want to build next
+
+The current setup is already useful, but I see it as a foundation rather than a finished product.
+
+One future project is a more ambitious memory system: something inspired by the ideas behind a Karpathy-style personal wiki and projects such as Mnemodyne. The goal would be to make long-term memory more structured, searchable and self-maintaining, while preserving human control over what becomes a durable fact. I would like Hermes to connect decisions, infrastructure notes, incidents, conversations and recurring procedures without turning memory into an unfiltered attic.
+
+I also want to add more integrations: better infrastructure APIs, more security telemetry, additional homelab services, richer GitHub workflows, and tighter connections between Home Assistant, monitoring and documentation.
+
+More skills are part of the same direction. A skill should capture a proven way of working—how to diagnose a class of problem, what assumptions to avoid, how to handle credentials, and how to verify the result. Over time, the agent becomes more useful not simply because the model changes, but because the operational playbook becomes richer.
+
+The long-term vision is not a single all-powerful agent with access to everything. It is a collection of well-scoped capabilities, connected by explicit permissions, useful memory and clear security boundaries.
+
 ## Security decisions we agreed on
 
 Our security model has become deliberately boring:
@@ -241,6 +321,8 @@ Hermes started as a chatbot experiment and became something closer to a small pe
 - skills for repeatable procedures;
 - memory for continuity;
 - Telegram for access from anywhere.
+
+I had never used Hermes before this project. Now it has become one of my most important tools—not because it replaces every other system, but because it connects them. It gives me one conversational control surface for investigation, maintenance, documentation and automation, while still allowing the underlying systems to remain separate and auditable.
 
 The fun part is that the system is never really finished. Every failed connection, misleading filter, expired token or quota limit becomes another piece of operational knowledge.
 
