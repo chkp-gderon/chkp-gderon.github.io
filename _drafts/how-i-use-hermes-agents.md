@@ -121,6 +121,23 @@ Docker is not automatically secure. If both containers mount the same directorie
 
 For now, separate OS users provide a practical middle ground: real filesystem permissions without adding unnecessary container complexity.
 
+## The technical shape of the system
+
+The setup is a small control plane rather than a single chatbot process. Hermes runs in a VM, exposes a Telegram gateway, loads profile-specific configuration and toolsets, and delegates work to terminal, file, Home Assistant, MCP and infrastructure integrations. The profile determines which persona, memory, skills and credentials are available.
+
+Configuration is split by function:
+
+- `config.yaml` controls behavioural settings such as provider selection, toolsets and fallback behaviour;
+- profile directories contain persona context, skills, references, sessions and profile-local state;
+- `.env` is reserved for bootstrap configuration and secret references rather than being treated as a general-purpose vault;
+- Vaultwarden stores the actual sensitive values;
+- cron definitions schedule small watchdogs, backups and reports;
+- Git repositories provide reviewable history for selected public or sanitized artifacts.
+
+A typical operation therefore crosses several layers: Telegram message → profile routing → agent reasoning → tool call → local or remote service → verification output. That chain is powerful, but it also creates more places where permissions, logging and failure handling matter.
+
+For unattended work, I prefer small script-only jobs where possible. They stay silent when everything is healthy and alert only on a meaningful condition. For reasoning-heavy tasks, Hermes runs a prompt-driven job with explicit scope and verification steps. This distinction keeps a one-minute health check from consuming an agent loop while still allowing an incident or failed cron job to receive investigation.
+
 ## What worked well
 
 ### Telegram as the control surface
@@ -181,17 +198,23 @@ The compromise was a smaller local model as an emergency fallback. It is not equ
 
 An offline fallback does not need to be brilliant. It needs to be available, predictable and honest about its limitations.
 
-### Vaultwarden was more complicated than expected
+### Vaultwarden became the answer to a security problem
 
-My preferred security model is simple:
+Vaultwarden was not a prerequisite for using Hermes. I added it later, when I started thinking seriously about how to handle secrets and tokens.
 
-- `.env` contains configuration and references;
-- Vaultwarden contains actual secrets;
-- secrets are fetched only when needed.
+I was not comfortable putting every credential in `.env` files on disk. At the same time, I wanted the convenience of a central, encrypted location that could be shared across Hermes profiles without duplicating secrets everywhere. I also wanted one source of truth when a token needs to be rekeyed, revoked or replaced.
 
-In practice, Vaultwarden and Bitwarden authentication involve encrypted vault data, sessions, device parameters and CLI quirks. Client credentials alone do not magically produce decrypted passwords.
+That led to a deliberately hybrid design:
 
-The solution we moved toward was a local bridge or MCP server that exposes focused operations such as listing items, fetching a specific item, retrieving a password and creating a test item.
+- non-sensitive configuration stays in profile configuration files;
+- secret values stay in Vaultwarden;
+- Hermes retrieves only the specific secret required for a task;
+- multiple profiles can use the same centrally managed credential when appropriate;
+- rotating or revoking a token happens centrally instead of requiring a search through every `.env` file.
+
+In practice, Vaultwarden and Bitwarden authentication involve encrypted vault data, sessions, device parameters and CLI quirks. Client credentials alone do not magically produce decrypted passwords. The operational flow became: unlock the vault, obtain a short-lived session, retrieve the named item, use it without printing it, and discard the session or runtime value when it is no longer needed.
+
+The solution we moved toward was a local bridge or MCP server that exposes focused operations such as listing items, fetching a specific item, retrieving a password and creating a test item. The important design choice is that Hermes does not need unrestricted access to the entire vault.
 
 The principle is more important than the implementation:
 
